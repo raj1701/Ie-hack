@@ -1,1 +1,11 @@
 credentials.json
+env/
+lib64/
+share/
+lib/
+pyvenv.cfg
+bin/
+include/
+lib/python3.8/site-packages/
+share/python-wheels
+.vscode
