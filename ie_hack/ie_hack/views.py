@@ -5,6 +5,7 @@ config={
     'apiKey': "AIzaSyCSOfSjkEoNTmMhtLrw0x2GqVMEKfwclts",
     'authDomain': "ie-hack.firebaseapp.com",
     'projectId': "ie-hack",
+    'databaseURL': "https://ie-hack-default-rtdb.firebaseio.com/", 
     'storageBucket': "ie-hack.appspot.com",
     'messagingSenderId': "529335447694",
     'appId': "1:529335447694:web:21baf2ca2203ef801459df",
