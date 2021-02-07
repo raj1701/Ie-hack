@@ -50,7 +50,7 @@ database=firebase.database()
 #     return render(request,"Home.html",{"day":day,"id":id,"projectname":projectname })
 username=""
 email=""
-
+event_id = 0
 def login_firebase(request):
     return render(request,"login_firebase.html")
 
@@ -144,6 +144,7 @@ def create_form(request):
 
 
 def create_event(request):
+    global username
     if not request.user.is_authenticated:
         return redirect('/login_firebase')
 
@@ -152,11 +153,33 @@ def create_event(request):
     desc = request.POST.get("desc")    
     venue = request.POST.get("venue")    
     sig = request.POST.get("sig")
-    date= request.POST.get('date')  
+    date= request.POST.get('date')
+    global event_id
     if not name or not desc or not venue or not sig:
         return redirect('/')
     event  = Event(name=name, desc= desc, venue= venue, sig=sig, date= date, active=True)
     event.save()
+    # event_id = event_id +1
+    data = {
+    "title":name,
+    "desc":desc,
+    "venue":venue,
+    "sig":sig,
+    "time_eve":date,
+    "mentors":request.user.username,
+    "eventid":str(event.id)
+    }
+
+    print( username)
+    db.collection('events').add(data)    
+    if sig =='all':
+        db.collection('code').add({"eventid":str(event.id)})
+        db.collection('gadget').add({"eventid":str(event.id)})
+        db.collection('garage').add({"eventid":str(event.id)})
+        db.collection('script').add({"eventid":str(event.id)})
+    else:        
+        db.collection(sig).add({"eventid":str(event.id)})
+    
     current_user = User.objects.get(id = request.user.id)
     event.mentors.add(current_user)
     event.save()
@@ -167,11 +190,19 @@ def add_resource(request,event_id):
     if request.method == "GET":
         return render(request, "add_resource.html",{"user": request.user,"event":event})
     
+    print("DOC1")
     if not request.user.is_authenticated:
         return redirect('/login_firebase')
+    
+    print("DOC2")
+    docs = db.collection('events').get() 
+    print(docs)
+    for doc in docs:
+        if doc.to_dict()["eventid"]==str(1):
+            key = doc.id
+            print("key: " + key)
+            db.collection('events').document(key).update({"name_res":request.POST.get("name"),"link":request.POST.get("link")})
 
-    if not request.user in event.mentors.all():
-        return redirect('/')
     resource = Resource(name= request.POST.get("name"), link=request.POST.get("link"), event=event, author=request.user)  
     resource.save()
     return redirect('/')

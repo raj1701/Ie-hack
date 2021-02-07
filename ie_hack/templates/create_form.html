@@ -16,7 +16,13 @@ Create Form
  <input type= "text" name="name" required placeholder="Name" >
  <input type= "text" name="desc" required placeholder="Description" >
  <input type= "text" name="venue" required placeholder="Venue" >
- <input type= "text" name="sig" required placeholder="SIG" >
+ 	<select name="sig">
+  	<option value="code">Code</option>
+  	<option value="gadget">Gadget</option>
+  	<option value="garage">Garage</option>
+  	<option value="script">Script</option>
+  	<option value="all">Open to All</option>
+	</select>
  <input type="datetime-local" name="date" required>
  <input type = "submit">
  </form>

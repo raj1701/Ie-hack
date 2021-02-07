@@ -6,10 +6,20 @@
 </head> 
 <body>
 <br> 
+
+{{ username}}
 {% if not events %}
 	<h4> No event present as of now </h4>
 	
 {% else %}
+	<select name="filter">
+	
+  	<option value="all">All</option>
+	<option value="code">Code</option>
+  	<option value="gadget">Gadget</option>
+  	<option value="garage">Garage</option>
+  	<option value="script">Script</option>
+	</select>
 	
 	{% for event in events%}
 		<h2> {{event.name}} </h2>
@@ -18,11 +28,20 @@
 		<br>
 		<h5> {{event.date}} </h5>
 		<br>
+		
+		{% for m in event.mentors.all%}
+			<h4>
+			{{m}}
+			</h4>
+
+		{% endfor %}
+
 		{% for r in event.resources.all %}
 			<h5> {{r.name}} </h5>
 			<br>
 			<h5> {{r.link}} </h5>
 		{% endfor %}
+		<a href="{% url 'add_resource' event.id %}">Add new resource</a>
 	{% endfor %}	
 {% endif %}
 
