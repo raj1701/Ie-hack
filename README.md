@@ -5,4 +5,3 @@ Most of the internal club event details get lost in whatsapp chats. Be it kep se
 - python manage.py migrate
 - python manage.py runserver
 
-P.s :work in progess
