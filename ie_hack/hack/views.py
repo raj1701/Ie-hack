@@ -234,3 +234,15 @@ def send_mail(request,event_id):
         mailServer.quit()
 
     return redirect('/')
+
+def logout_user(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return redirect('/login_firebase')
+
+def filter(request):
+    sig= request.POST.get("filter")
+    docs = db.collection(sig).get()
+    for doc in docs:
+        print(doc.to_dict())
+    return redirect('/')

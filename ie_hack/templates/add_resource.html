@@ -1,21 +1,42 @@
 <!DOCTYPE html> 
 <html lang="en"> 
 <head> 
-	<meta charset="UTF-8"> 
-	<title>Sample Poject</title> 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head> 
 <body> 
 <H1> 
-Create Form 
+Add Resource
 	</H1> 
 
 <br/> 
- <form action ="{% url 'add_resource' event.id %}" method="POST">
- {% csrf_token %}
+<div class="container">
+  
+ <form action = "/create_event" method="POST">
+{% csrf_token %}
+<div class="form-group">
  <input type= "text" name="name" required placeholder="Name" >
- <input type= "text" name="link" required placeholder="Link" >
+ </div>
+ <div class="form-group">
+ <input type= "text" name="desc" required placeholder="Description" >
+ </div>
+ <div class="form-group">
+ <input type= "text" name="venue" required placeholder="Venue" >
+ </div>
+ 	<select name="sig">
+  	<option value="code">Code</option>
+  	<option value="gadget">Gadget</option>
+  	<option value="garage">Garage</option>
+  	<option value="script">Script</option>
+  	<option value="all">Open to All</option>
+	</select>
+ <input type="datetime-local" name="date" required>
  <input type = "submit">
  </form>
+ </div>
+
  <a href='/logout'> Logout </a>
 </body> 
 </html>

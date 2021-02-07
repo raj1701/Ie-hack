@@ -4,20 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ansetzan</title>
-  <link rel="stylesheet" href="../static/styles.css">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 </head>
 <body>
   <header>
+    <a href='/logout' style="color:white; float:right"> Logout </a>
     <div class="container">
       <div class="header-left">
-          <a href="landingPage.html" style="color: aliceblue;text-decoration: none;"> <img class="logo"  src="../static/ielogo.jpeg" alt="Logo"></a>
+          <a href="landingPage.html" style="color: aliceblue;text-decoration: none;"> <img class="logo"  src="{% static 'img/ielogo.jpeg' %}" alt="Logo"></a>
       </div>
       
     </div>
   </header>
-	<a href='/logout' class= "btn btn-danger"> Logout </a>
+	
   <div class="top-wrapper" background-image: src="../static/img.jpg";>
     <div class="container">
       <h1>Motto of the Club<br>The vision</h1>
@@ -30,66 +31,60 @@
         <h2>Events</h2>
         <p>“We learn more by looking for the answer to a question and not finding it than we do from learning the answer itself.”
         </p>
-      </div>
-      <div class="lessons">
-      </div>
-    </div>
-  </div>
-  <div class="faq-wrapper">
-    <div class="container">
-      <div class="heading">
-        {% if not events %}
-	      <h4> No event present as of now </h4>
-	
-        {% else %}
-			<select name="filter">
-			<option value="all">All</option>
-			<option value="code">Code</option>
-  			<option value="gadget">Gadget</option>
-  			<option value="garage">Garage</option>
-  			<option value="script">Script</option>
-			</select> 
+        <div class="container">
 
-          {% for event in events%}
-          <div class="col-12 col-md-4">
-            <div class="card " style="width: 18rem;">
-              <div class="card-body">
-                <h5 class="card-title">{{event.name}}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{event.desc}}</h6>
-                <p class="card-text"><strong>Sig is </strong> {{event.sig}} <br> <strong>Venue is </strong> {{event.venue}} <br> <strong>Date is</strong> {{event.date}}</p>
-                {% for r in event.resources.all %}
-                <a href="{{r.link}}" class="card-link">            
-                   {{r.name}} 
-                </a>
-                <br>
-                {% endfor %}
-                <a href="{% url 'add_resource' event.id %}" class= "card-link">Add new resource</a>           
-              </div>
-            </div>
-          </div>
-          {% endfor %}
 
+          {% if not events %}
+          <h4> No event present as of now </h4>
+        
+          {% else %}
+          <!-- <form action = "/filter" method="POST">
+            {% csrf_token %}
             
-
-          
-          
-        {% endif %}
-
+               <select name="filter">
+                <option value="code">Code</option>
+                <option value="gadget">Gadget</option>
+                <option value="garage">Garage</option>
+                <option value="script">Script</option>
+                <option value="all">Open to All</option>
+               </select>
+          </form> -->
+          <div class="container mt-20">
+            {% for event in events%}
+            <div class="card my-5" style="box-shadow:10px 10px 5px grey; width: 30%; float: left; margin:1%">
+              <!-- <div class="card " style="width: 18rem; float:left;"> -->
+                <div class="card-body">
+                  <h5 class="card-title">{{event.name}}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">{{event.desc}}</h6>
+                  <p class="card-text"><strong>Sig is </strong> {{event.sig}} <br> <strong>Venue is </strong> {{event.venue}} <br> <strong>Date is</strong> {{event.date}}</p>
+                  {% for r in event.resources.all %}
+                  <a href="{{r.link}}" class="card-link">            
+                     {{r.name}} 
+                  </a>
+                  
+                  {% endfor %}
+                  <a href="{% url 'add_resource' event.id %}" class= "card-link">Add new resource</a>           
+                </div>
+              </div>
+            
+            {% endfor %}
+          </div>        
+            
+          {% endif %}
+        
       </div>
-      <div class="faq">
       </div>
     </div>
   </div>
-  <div class="message-wrapper">
-    <div class="container">
-      <div class="heading">
-        <h2>Others</h2>
-        <h3 id="tagline">“Start where you are. Use what you have. Do what you can.”
-          Arthur Ashe!</h3>
-      </div>
-      
-    </div>
-  </div>
+</div>
+  <br>
+  <br>
+  <br>
+
+  
+    
+
+<!-- 
   <footer >
     <div class="container" style="background-color: rgb(189, 217, 245);width: auto">
       <img src="{% static '../static/ielogo.jpeg' %}" alt="Logo">
@@ -99,7 +94,8 @@
     </div>
       
     
-  </footer>
-  <script src="script.js"></script>
+  </footer> -->
+  <br>
+  <br>
 </body>
 </html>
