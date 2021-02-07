@@ -44,6 +44,8 @@ database=firebase.database()
 
 
 def login_firebase(request):
+    if request.user.is_authenticated:
+        return redirect('/')
     return render(request,"login_firebase.html")
 
 
@@ -155,3 +157,10 @@ def add_resource(request,event_id):
     resource = Resource(name= request.POST.get("name"), link=request.POST.get("link"), event=event, author=request.user)  
     resource.save()
     return redirect('/')
+
+def logout_user(request):
+    if request.user.is_authenticated:
+        logout(request)
+       
+    return redirect('/login_firebase')
+    
