@@ -21,7 +21,7 @@ from ie_hack.settings import EMAIL_HOST_USER
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 import pyrebase 
-
+import smtplib
 import firebase_admin
 from firebase_admin import credentials, firestore
 # firebase admin
@@ -176,3 +176,29 @@ def add_resource(request,event_id):
     resource.save()
     return redirect('/')
     
+
+def send_mail(request,event_id):
+    event = Event.objects.get(pk =event_id)
+    list_of_emails=['rajatpartani@gmail.com']
+    for i in list_of_emails :
+        gmailaddress = 'ansetzan@gmail.com'
+        gmailpassword = 'Ansetzan123'
+        mailto =i   #input("what email address do you want to send your message to? \n ")
+        msg_1= "There is a session on "
+        topic=event.name
+        msg_2=" organised by IE "
+    
+        sig=event.sig
+        msg_3="On "
+        date_time=event.date
+        msg_4=" The Mentors are = "+event.mentors
+        #meet_link=""
+        final_msg=msg_1+topic+msg_2+sig+msg_3+date_time+msg_4+meet_link
+        mailServer = smtplib.SMTP('smtp.gmail.com' , 587)
+        mailServer.starttls()
+        mailServer.login(gmailaddress , gmailpassword)
+        mailServer.sendmail(gmailaddress, mailto , final_msg)
+        #print(" \n Sent!")
+        mailServer.quit()
+
+    return redirect('/')
