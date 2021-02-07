@@ -21,7 +21,14 @@ from ie_hack.settings import EMAIL_HOST_USER
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 import pyrebase 
-  
+
+import firebase_admin
+from firebase_admin import credentials, firestore
+# firebase admin
+cred = credentials.Certificate("ie_hack/credentials.json")
+firebase_admin.initialize_app(cred)
+db = firestore.client()
+
 config={ 
     'apiKey': "AIzaSyCSOfSjkEoNTmMhtLrw0x2GqVMEKfwclts",
     'authDomain': "ie-hack.firebaseapp.com",
@@ -41,16 +48,17 @@ database=firebase.database()
 #     id = database.child('Data').child('Id').get().val() 
 #     projectname = database.child('Data').child('Projectname').get().val() 
 #     return render(request,"Home.html",{"day":day,"id":id,"projectname":projectname })
-
+username=""
+email=""
 
 def login_firebase(request):
-    if request.user.is_authenticated:
-        return redirect('/')
     return render(request,"login_firebase.html")
 
 
 @csrf_exempt
 def firebase_login_save(request):
+    global username
+    global email
     username=request.POST.get("username")
     email=request.POST.get("email")
     provider=request.POST.get("provider")
@@ -116,7 +124,17 @@ def home(request):
     if not request.user.is_authenticated:
         return redirect('/login_firebase')
     events = Event.objects.filter(active=True)
-    return render(request, "dashboard.html",{"user": request.user , "events": events})
+    docs = db.collection('users').where("email", "==", email).get()
+    if docs:
+        pass
+    else:
+        data = {
+            "Name": username,
+            "email":email,
+        }
+        db.collection('users').add(data)
+    
+    return render(request, "dashboard.html",{"user": request.user , "events": events,"username":username})
 
 
 
@@ -134,7 +152,7 @@ def create_event(request):
     desc = request.POST.get("desc")    
     venue = request.POST.get("venue")    
     sig = request.POST.get("sig")
-    date= request.POST.get('date')    
+    date= request.POST.get('date')  
     if not name or not desc or not venue or not sig:
         return redirect('/')
     event  = Event(name=name, desc= desc, venue= venue, sig=sig, date= date, active=True)
@@ -157,10 +175,4 @@ def add_resource(request,event_id):
     resource = Resource(name= request.POST.get("name"), link=request.POST.get("link"), event=event, author=request.user)  
     resource.save()
     return redirect('/')
-
-def logout_user(request):
-    if request.user.is_authenticated:
-        logout(request)
-       
-    return redirect('/login_firebase')
     
