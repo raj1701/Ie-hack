@@ -1,0 +1,21 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8"> 
+	<title>Sample Poject</title> 
+</head> 
+<body> 
+<H1> 
+Create Form 
+	</H1> 
+
+<br/> 
+ {% csrf_token %}
+ <form action = "{{event.id}}/add_resource" method="POST">
+ <input type= "text" name="name" required placeholder="Name" >
+ <input type= "text" name="link" required placeholder="Description" >
+ <input type="datetime-local" name="date" required>
+ <input type = "submit">
+ </form>
+</body> 
+</html>

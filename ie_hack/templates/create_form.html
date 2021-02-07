@@ -1,0 +1,23 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8"> 
+	<title>Sample Poject</title> 
+</head> 
+<body> 
+<H1> 
+Create Form 
+	</H1> 
+
+<br/> 
+ {% csrf_token %}
+ <form action = "/create_event" method="POST">
+ <input type= "text" name="name" required placeholder="Name" >
+ <input type= "text" name="desc" required placeholder="Description" >
+ <input type= "text" name="venue" required placeholder="Venue" >
+ <input type= "text" name="sig" required placeholder="SIG" >
+ <input type="datetime-local" name="date" required>
+ <input type = "submit">
+ </form>
+</body> 
+</html>

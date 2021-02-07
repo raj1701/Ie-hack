@@ -1,0 +1,31 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8"> 
+	<title>Sample Poject</title> 
+</head> 
+<body>
+<br> 
+{% if not events %}
+	<h4> No event present as of now </h4>
+	
+{% else %}
+	
+	{% for event in events%}
+		<h2> {{event.name}} </h2>
+		<br>
+		<h5> {{event.desc}} </h5>
+		<br>
+		<h5> {{event.date}} </h5>
+		<br>
+        {% for r in event.resources.all() %}
+            <h5> {{r.name}} </h5>
+		    <br>
+		    <h5> {{r.link}} </h5>
+
+        {% endfor %}
+	{% endfor %}	
+{% endif %}
+
+</body> 
+</html>
