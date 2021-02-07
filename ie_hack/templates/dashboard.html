@@ -18,12 +18,11 @@
 		<br>
 		<h5> {{event.date}} </h5>
 		<br>
-        {% for r in event.resources.all() %}
-            <h5> {{r.name}} </h5>
-		    <br>
-		    <h5> {{r.link}} </h5>
-
-        {% endfor %}
+		{% for r in event.resources.all %}
+			<h5> {{r.name}} </h5>
+			<br>
+			<h5> {{r.link}} </h5>
+		{% endfor %}
 	{% endfor %}	
 {% endif %}
 
