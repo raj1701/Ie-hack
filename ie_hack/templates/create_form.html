@@ -10,8 +10,9 @@ Create Form
 	</H1> 
 
 <br/> 
- {% csrf_token %}
+ 
  <form action = "/create_event" method="POST">
+{% csrf_token %}
  <input type= "text" name="name" required placeholder="Name" >
  <input type= "text" name="desc" required placeholder="Description" >
  <input type= "text" name="venue" required placeholder="Venue" >
