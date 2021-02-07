@@ -198,23 +198,24 @@ def add_resource(request,event_id):
     docs = db.collection('events').get() 
     print(docs)
     for doc in docs:
-        if doc.to_dict()["eventid"]==str(1):
+        if doc.to_dict()["eventid"]==str(event_id):
             key = doc.id
             print("key: " + key)
             db.collection('events').document(key).update({"name_res":request.POST.get("name"),"link":request.POST.get("link")})
 
     resource = Resource(name= request.POST.get("name"), link=request.POST.get("link"), event=event, author=request.user)  
-    resource.save()
+    resource.save() 
     return redirect('/')
     
 
 def send_mail(request,event_id):
     event = Event.objects.get(pk =event_id)
-    list_of_emails=['rajatpartani@gmail.com']
-    for i in list_of_emails :
+    users = Users.object.get()
+    # list_of_emails=['rajatpartani@gmail.com']
+    for i in users :
         gmailaddress = 'ansetzan@gmail.com'
         gmailpassword = 'Ansetzan123'
-        mailto =i   #input("what email address do you want to send your message to? \n ")
+        mailto =i.email   #input("what email address do you want to send your message to? \n ")
         msg_1= "There is a session on "
         topic=event.name
         msg_2=" organised by IE "
